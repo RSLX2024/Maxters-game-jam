@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - aptek
   layers:
   - Default
   - TransparentFX
