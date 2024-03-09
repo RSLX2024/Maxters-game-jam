@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Text hpText;
     [SerializeField] private Slider sl;
+    [SerializeField] private Transform gun; 
 
     private float speed;
     private Vector2 moveInput;
@@ -63,6 +65,10 @@ public class Player : MonoBehaviour
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
         transform.localScale = scaler;
+        Vector3 gunScaler = gun.transform.localScale;
+        gunScaler.x *= -1;
+        gun.transform.localScale = gunScaler;
+        
     }
 
     public void ChangeHealth(int value)
@@ -70,14 +76,19 @@ public class Player : MonoBehaviour
         health += value;
         sl.value = health;
         hpText.text = health.ToString() + "/" + maxHealth.ToString();
+        if(health <= 0)
+        {
+            //Переход на след. уроввень!
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private IEnumerator MinusHp()
     {
         for(; ; )
         {
-            yield return new WaitForSeconds(3);
-            ChangeHealth(-10);
+            yield return new WaitForSeconds(5);
+            ChangeHealth(-1);
         }
     }
 }
